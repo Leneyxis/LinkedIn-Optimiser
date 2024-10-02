@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const user = userCredential.user;
                     console.log('Email/Password Sign-Up successful:', user);
                     alert(`Account created successfully for ${user.email}`);
+                    // Redirect to profile.html
+                    window.location.href = 'profile.html';
                 })
                 .catch((error) => {
                     console.error('Error during Email Sign-Up:', error);
@@ -53,36 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const user = result.user;
                     console.log('Google Sign-In successful:', user);
                     alert(`Welcome, ${user.displayName}!`);
+                    // Redirect to profile.html
+                    window.location.href = 'profile.html';
                 })
                 .catch((error) => {
                     console.error('Google Sign-In Error:', error);
                     alert('Error during Google Sign-In');
                 });
-        });
-    }
-
-    // Toggle Password Visibility
-    const passwordField = document.getElementById('password');
-    const passwordEyeIcon = document.querySelector('.password-eye');
-    
-    if (passwordEyeIcon) {
-        passwordEyeIcon.addEventListener('click', () => {
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text'; // Show password
-                passwordEyeIcon.classList.add('active');
-            } else {
-                passwordField.type = 'password'; // Hide password
-                passwordEyeIcon.classList.remove('active');
-            }
-        });
-    }
-
-    // Handle redirect to login (login.html)
-    const loginLink = document.querySelector('.login-text a');
-    if (loginLink) {
-        loginLink.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent the default behavior
-            window.location.href = 'login.html'; // Redirect to login page
         });
     }
 });
