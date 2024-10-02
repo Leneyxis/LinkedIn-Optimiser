@@ -1,6 +1,6 @@
-// Import Firebase modules using the modular syntax
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+// Import Firebase modules using the modular syntax (v10.13.0)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -59,6 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Google Sign-In Error:', error);
                     alert('Error during Google Sign-In.');
                 });
+        });
+    }
+
+    // Handle redirect to sign-up (index.html)
+    const signUpLink = document.querySelector('.signup-text a');
+    if (signUpLink) {
+        signUpLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent the default behavior
+            window.location.href = 'index.html'; // Redirect to sign-up page
         });
     }
 });
