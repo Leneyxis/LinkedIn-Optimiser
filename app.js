@@ -1,7 +1,3 @@
-// Import Firebase modules using the modular syntax
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCLF6CH7NEsjTgyGTdXJKKAZElCpEbgIVw",
@@ -14,8 +10,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (googleSignInBtn) {
         googleSignInBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
                 .then((result) => {
                     const user = result.user;
                     console.log('Google Sign-In successful:', user);
