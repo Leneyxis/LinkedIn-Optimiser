@@ -19,7 +19,6 @@ const auth = getAuth(app);
 
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
-
     // Handle Email/Password Login
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
@@ -35,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const user = userCredential.user;
                     console.log('Email/Password Login successful:', user);
                     alert(`Welcome back, ${user.email}!`);
+                    // Redirect to profile.html
+                    window.location.href = 'profile.html';
                 })
                 .catch((error) => {
                     console.error('Email/Password Login Error:', error);
@@ -53,34 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const user = result.user;
                     console.log('Google Sign-In successful:', user);
                     alert(`Welcome, ${user.displayName}!`);
+                    // Redirect to profile.html
+                    window.location.href = 'profile.html';
                 })
                 .catch((error) => {
                     console.error('Google Sign-In Error:', error);
                     alert('Error during Google Sign-In.');
                 });
-        });
-    }
-
-    // Toggle Password Visibility
-    const passwordField = document.getElementById('password');
-    const passwordEyeIcon = document.querySelector('.password-eye');
-    
-    if (passwordEyeIcon) {
-        passwordEyeIcon.addEventListener('click', () => {
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text'; // Show password
-            } else {
-                passwordField.type = 'password'; // Hide password
-            }
-        });
-    }
-
-    // Handle redirect to sign-up (index.html)
-    const signUpLink = document.querySelector('.signup-text a');
-    if (signUpLink) {
-        signUpLink.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent the default behavior
-            window.location.href = 'index.html'; // Redirect to sign-up page
         });
     }
 });
