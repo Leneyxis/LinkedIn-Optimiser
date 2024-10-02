@@ -17,7 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -29,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+
             // Use Firebase's createUserWithEmailAndPassword method for email/password sign-up
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
@@ -86,4 +86,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
