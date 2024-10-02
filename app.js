@@ -65,3 +65,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+console.log(response.choices[0].message)
