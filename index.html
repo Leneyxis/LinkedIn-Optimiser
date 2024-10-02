@@ -30,7 +30,7 @@
       
       <!-- Buttons -->
       <div class="buttons">
-        <button class="btn google-btn" id="google-signup">Sign up with Google</button>
+        <button class="btn google-btn" id="google">Sign up with Google</button>
       </div>
       
       <!-- Footer Text -->
@@ -41,12 +41,8 @@
     </div>
   </div>
 
-  <!-- Firebase JS SDK from CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-
   <!-- Link to the JavaScript file for Firebase Google Sign-In -->
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script> <!-- Make sure to add type="module" here -->
 
 </body>
 </html>
