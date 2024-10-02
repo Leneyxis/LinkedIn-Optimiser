@@ -87,24 +87,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Google Sign-In
-    const googleSignInBtn = document.getElementById('google');
-
-    if (googleSignInBtn) {
-        googleSignInBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    console.log('Google Sign-In successful:', user);
-                    alert(`Welcome, ${user.displayName}!`);
-                    // Redirect or update the UI based on successful login
-                })
-                .catch((error) => {
-                    console.error('Error during Google Sign-In:', error);
-                    alert('Error during Google Sign-In');
-                });
-        });
-    }
-});
