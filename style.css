@@ -82,19 +82,16 @@ h2 {
   font-size: 1rem;
 }
 
-/* Form Styles */
-form {
-  margin-bottom: 20px;
-}
-
+/* Input Group Styling */
 .input-group {
+  position: relative; /* Add this to position the eye icon */
   margin-bottom: 15px;
-  position: relative;
 }
 
 .input-group input {
   width: 100%;
   padding: 12px;
+  padding-right: 40px; /* Add padding for the eye icon */
   border: 2px solid #ddd;
   border-radius: 10px;
   font-size: 1rem;
@@ -106,7 +103,22 @@ form {
 
 .input-group input:focus {
   border-color: #0073b1;
-  box-shadow: 0 0 5px rgba(0, 115, 177, 0.2);
+}
+
+/* Password Eye Icon */
+.password-eye {
+  position: absolute;
+  right: 12px; /* Adjust distance from the right */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.password-eye:hover {
+  color: #0073b1;
 }
 
 /* Buttons */
