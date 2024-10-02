@@ -1,4 +1,4 @@
-// Import Firebase modules using the modular syntax
+// Import Firebase modules using the modular syntax (v10.13.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
@@ -17,36 +17,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Password validation function
-function validatePassword(password) {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    if (password.length < minLength) {
-        return `Password must be at least ${minLength} characters long.`;
-    }
-    if (!hasUpperCase) {
-        return "Password must contain at least one uppercase letter.";
-    }
-    if (!hasLowerCase) {
-        return "Password must contain at least one lowercase letter.";
-    }
-    if (!hasNumbers) {
-        return "Password must contain at least one number.";
-    }
-    if (!hasSpecialChar) {
-        return "Password must contain at least one special character.";
-    }
-
-    return ""; // No errors, password is valid
-}
-
 // Ensure the DOM is fully loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
-    // Email and Password Sign-Up
+
+    // Handle Email/Password Sign-Up
     const signUpForm = document.getElementById('signup-form');
     if (signUpForm) {
         signUpForm.addEventListener('submit', (e) => {
@@ -55,22 +29,60 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const validationError = validatePassword(password);
-            if (validationError) {
-                alert(validationError);
-                return;
-            }
-
+            // Use Firebase's createUserWithEmailAndPassword method for email/password sign-up
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    console.log('Email Sign-Up successful:', user);
+                    console.log('Email/Password Sign-Up successful:', user);
                     alert(`Account created successfully for ${user.email}`);
                 })
                 .catch((error) => {
                     console.error('Error during Email Sign-Up:', error);
                     alert('Error during Email Sign-Up. Please try again.');
                 });
+        });
+    }
+
+    // Handle Google Sign-In
+    const googleSignInBtn = document.getElementById('google');
+    if (googleSignInBtn) {
+        googleSignInBtn.addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log('Google Sign-In successful:', user);
+                    alert(`Welcome, ${user.displayName}!`);
+                })
+                .catch((error) => {
+                    console.error('Google Sign-In Error:', error);
+                    alert('Error during Google Sign-In');
+                });
+        });
+    }
+
+    // Toggle Password Visibility
+    const passwordField = document.getElementById('password');
+    const passwordEyeIcon = document.querySelector('.password-eye');
+    
+    if (passwordEyeIcon) {
+        passwordEyeIcon.addEventListener('click', () => {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text'; // Show password
+                passwordEyeIcon.classList.add('active');
+            } else {
+                passwordField.type = 'password'; // Hide password
+                passwordEyeIcon.classList.remove('active');
+            }
+        });
+    }
+
+    // Handle redirect to login (login.html)
+    const loginLink = document.querySelector('.login-text a');
+    if (loginLink) {
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent the default behavior
+            window.location.href = 'login.html'; // Redirect to login page
         });
     }
 });
