@@ -27,12 +27,23 @@
 
       <!-- Subtitle -->
       <p class="subtitle">Optimize your LinkedIn profile for your next big career move</p>
-      
-      <!-- Buttons -->
+
+      <!-- Email and Password Sign-Up Form -->
+      <form id="signup-form">
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Email" required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn">Sign up with Email</button>
+      </form>
+
+      <!-- Google Sign-Up Button -->
       <div class="buttons">
         <button class="btn google-btn" id="google">Sign up with Google</button>
       </div>
-      
+
       <!-- Footer Text -->
       <small>By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</small>
       
@@ -41,8 +52,8 @@
     </div>
   </div>
 
-  <!-- Link to the JavaScript file for Firebase Google Sign-In -->
-  <script type="module" src="app.js"></script> <!-- Make sure to add type="module" here -->
+  <!-- Link to the JavaScript file for Firebase Google Sign-In and Email Sign-Up -->
+  <script type="module" src="app.js"></script>
 
 </body>
 </html>
