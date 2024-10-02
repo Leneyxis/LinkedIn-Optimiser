@@ -21,12 +21,12 @@
       <h2 class="welcome-text">Welcome back!</h2>
 
       <!-- Login Form -->
-      <form action="#" class="login-form">
+      <form id="login-form" class="login-form">
         <div class="input-group">
-          <input type="email" placeholder="Email" required>
+          <input type="email" id="email" placeholder="Email" required>
         </div>
         <div class="input-group">
-          <input type="password" placeholder="Password" required>
+          <input type="password" id="password" placeholder="Password" required>
           <span class="password-eye">&#128065;</span> <!-- Eye icon -->
         </div>
 
@@ -41,11 +41,8 @@
 
       <!-- Social Sign-Up Options -->
       <div class="social-buttons">
-        <button class="btn google-btn">
+        <button class="btn google-btn" id="google-signin-btn">
           <img src="assets/google.png" alt="Google" class="icon"> Sign in with Google
-        </button>
-        <button class="btn linkedin-btn">
-          <img src="assets/linkedin.png" alt="LinkedIn" class="icon"> Sign in with LinkedIn
         </button>
       </div>
 
@@ -53,6 +50,13 @@
       <p class="signup-text">Don’t have an account? <a href="index.html">Sign up</a></p>
     </div>
   </div>
+
+  <!-- Firebase JS SDK from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+
+  <!-- Firebase Authentication Logic -->
+  <script type="module" src="login.js"></script>
 
 </body>
 </html>
