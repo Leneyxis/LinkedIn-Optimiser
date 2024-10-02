@@ -82,6 +82,33 @@ h2 {
   font-size: 1rem;
 }
 
+/* Form Styles */
+form {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #0073b1;
+  box-shadow: 0 0 5px rgba(0, 115, 177, 0.2);
+}
+
 /* Buttons */
 .buttons {
   margin-bottom: 20px;
@@ -106,14 +133,12 @@ h2 {
   color: #fff;
 }
 
-.linkedin-btn {
-  background-color: #0073b1;
-  color: #fff;
+.btn:hover {
+  opacity: 0.9;
 }
 
-.google-btn:hover, .linkedin-btn:hover {
-  opacity: 0.8;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+.google-btn:hover {
+  background-color: #c23321;
 }
 
 /* Footer Text */
