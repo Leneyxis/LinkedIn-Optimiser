@@ -17,26 +17,35 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Ensure the DOM is fully loaded before running the script
-document.addEventListener('DOMContentLoaded', () => {
-    // Google Sign-In
-    const googleSignInBtn = document.getElementById('google');
-    if (googleSignInBtn) {
-        googleSignInBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    console.log('Google Sign-In successful:', user);
-                    alert(`Welcome, ${user.displayName}!`);
-                })
-                .catch((error) => {
-                    console.error('Error during Google Sign-In:', error);
-                    alert('Error during Google Sign-In');
-                });
-        });
+// Password validation function
+function validatePassword(password) {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength) {
+        return `Password must be at least ${minLength} characters long.`;
+    }
+    if (!hasUpperCase) {
+        return "Password must contain at least one uppercase letter.";
+    }
+    if (!hasLowerCase) {
+        return "Password must contain at least one lowercase letter.";
+    }
+    if (!hasNumbers) {
+        return "Password must contain at least one number.";
+    }
+    if (!hasSpecialChar) {
+        return "Password must contain at least one special character.";
     }
 
+    return ""; // No errors, password is valid
+}
+
+// Ensure the DOM is fully loaded before running the script
+document.addEventListener('DOMContentLoaded', () => {
     // Email and Password Sign-Up
     const signUpForm = document.getElementById('signup-form');
     if (signUpForm) {
@@ -45,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+
+            const validationError = validatePassword(password);
+            if (validationError) {
+                alert(validationError);
+                return;
+            }
 
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
