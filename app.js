@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to send the image to OpenAI's GPT-4 Vision
     async function sendToGPT4Vision(file) {
-        const apiKey = 'sk-RR0ofJlQJiLRGjzonoUgBXyGIZ2385Zlnl00znGerjT3BlbkFJUIZ5RHfmDGZjB9Gu-PowlezMeNZIRc7fQ4Ga3BmBgA';  // Replace with your OpenAI API Key
+        const apiKey = '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';  // Replace with your OpenAI API Key
         const base64Image = await convertFileToBase64(file);
 
         const payload = {
