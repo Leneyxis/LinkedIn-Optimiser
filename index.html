@@ -38,8 +38,9 @@
             <input type="password" id="signup-password" placeholder="Password" required>
             <span class="password-eye" id="signup-eye">&#128065;</span>
           </div>
-          <button type="submit" class="btn">Sign up with Email</button>
+          <button type="button" class="btn" id="signup-button">Sign up with Email</button> <!-- Changed button type -->
         </form>
+        <div id="signup-error" style="display:none; color:red; font-size:0.9rem;"></div>
 
         <!-- Google Sign-Up Button -->
         <div class="social-buttons">
@@ -65,7 +66,7 @@
             <input type="password" id="login-password" placeholder="Password" required>
             <span class="password-eye" id="login-eye">&#128065;</span>
           </div>
-          <button type="submit" class="btn login-btn">Log in with Email</button>
+          <button type="button" class="btn login-btn" id="login-button">Log in with Email</button> <!-- Changed button type -->
         </form>
 
         <!-- Google Log-In Button -->
@@ -74,7 +75,7 @@
             <img src="assets/google.png" alt="Google" class="icon"> Log in with Google
           </button>
         </div>
-
+        <div id="login-error" style="display:none; color:red; font-size:0.9rem;"></div>
         <!-- Toggle to Sign-Up -->
         <p class="toggle-text">Don’t have an account? <a href="#" id="switch-to-signup">Sign up here</a></p>
       </div>
