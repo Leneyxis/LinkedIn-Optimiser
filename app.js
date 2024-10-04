@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);  // Read file as a Data URL (Base64)
-            reader.onload = () => resolve(reader.result);  // Resolve the Base64 string
+            reader.onload = () => resolve(reader.result.split(',')[1]);  // Resolve only the Base64 string part
             reader.onerror = error => reject(error);  // Reject in case of error
         });
     }
@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     async function sendToGPT4Vision(base64Image) {
         const prompt = `
             System: Consider yourself to be a LinkedIn Profile Optimiser, helping students to create the right profile.
-            File: image
             User prompt: With respect to this image, provide me a detailed changes report on the following fields:
             Profile Photo
             Banner
@@ -70,15 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         try {
-            const response = await fetch('https://api.openai.com/v1/images/generations', {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer sk-RR0ofJlQJiLRGjzonoUgBXyGIZ2385Zlnl00znGerjT3BlbkFJUIZ5RHfmDGZjB9Gu-PowlezMeNZIRc7fQ4Ga3BmBgA`,  // Replace with your API key
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    image: base64Image,
-                    prompt: prompt
+                    model: 'gpt-4-vision',
+                    messages: [
+                        {
+                            role: 'user',
+                            content: [
+                                { type: 'text', text: prompt },
+                                {
+                                    type: 'image_url',
+                                    image_url: {
+                                        url: `data:image/jpeg;base64,${base64Image}`
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens: 300
                 })
             });
 
