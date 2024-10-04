@@ -37,88 +37,70 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to convert file to Base64 string
-    function convertFileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);  // Read file as a Data URL (Base64)
-            reader.onload = () => resolve(reader.result.split(',')[1]);  // Resolve only the Base64 string part
-            reader.onerror = error => reject(error);  // Reject in case of error
-        });
-    }
-
-    // Function to send the Base64 image to GPT-4 Vision
-    async function sendToGPT4Vision(base64Image) {
-        const prompt = `
-            System: Consider yourself to be a LinkedIn Profile Optimiser, helping students to create the right profile.
-            User prompt: With respect to this image, provide me a detailed changes report on the following fields:
-            Profile Photo
-            Banner
-            Headline
-            Open To Work
-            Location
-            Connections
-            About
-            Experience
-            Education
-            Skills
-            LinkedIn URL
-            Featured
-            Licenses and Certifications
-            Volunteering
-            Divide these into Recommended/Good to Have, Complete, Requires Attention.
-        `;
-
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer sk-RR0ofJlQJiLRGjzonoUgBXyGIZ2385Zlnl00znGerjT3BlbkFJUIZ5RHfmDGZjB9Gu-PowlezMeNZIRc7fQ4Ga3BmBgA`,  // Replace with your API key
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: 'gpt-4-vision',
-                    messages: [
-                        {
-                            role: 'user',
-                            content: [
-                                { type: 'text', text: prompt },
-                                {
-                                    type: 'image_url',
-                                    image_url: {
-                                        url: `data:image/jpeg;base64,${base64Image}`
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    max_tokens: 300
-                })
-            });
-
-            const data = await response.json();
-            console.log(data);  // Log the response for debugging
-            // Handle the response and display recommendations
-            alert('Optimization report received!');
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while processing the screenshot.');
-        }
-    }
-
-    // Event listener for the "Submit Screenshot" button
-    submitBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const file = fileInput.files[0];
-        if (file) {
-            try {
-                const base64Image = await convertFileToBase64(file);  // Convert the image to Base64
-                await sendToGPT4Vision(base64Image);  // Send the Base64 image to GPT-4 Vision
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Failed to process the image. Please try again.');
-            }
-        } else {
-            alert('Please select a screenshot before submitting.');
-        }
+function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);  // Read file as Data URL (Base64)
+        reader.onload = () => resolve(reader.result.split(',')[1]);  // Resolve only the Base64 string
+        reader.onerror = error => reject(error);  // Reject in case of error
     });
+}
+
+// Function to send the image to OpenAI's GPT-4 Vision
+async function sendToGPT4Vision(file) {
+    const apiKey = 'sk-RR0ofJlQJiLRGjzonoUgBXyGIZ2385Zlnl00znGerjT3BlbkFJUIZ5RHfmDGZjB9Gu-PowlezMeNZIRc7fQ4Ga3BmBgA';  // Replace with your OpenAI API Key
+    const base64Image = await convertFileToBase64(file);
+
+    const payload = {
+        model: 'gpt-4o-mini',
+        messages: [
+            {
+                role: 'user',
+                content: [
+                    { type: 'text', text: "What's in this image?" },
+                    {
+                        type: 'image_url',
+                        image_url: {
+                            url: `data:image/jpeg;base64,${base64Image}`
+                        }
+                    }
+                ]
+            }
+        ],
+        max_tokens: 300
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+    };
+
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        console.log('GPT-4 Vision Response:', data);
+        // Handle the response (e.g., display the report to the user)
+        alert('Optimization report received!');
+    } catch (error) {
+        console.error('Error sending image to GPT-4 Vision:', error);
+        alert('An error occurred while processing the screenshot.');
+    }
+}
+
+// Example usage - handle the file input and submission
+document.getElementById('submit-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const fileInput = document.getElementById('screenshot-upload');
+    const file = fileInput.files[0];  // Get the selected file
+
+    if (file) {
+        await sendToGPT4Vision(file);  // Send the file to GPT-4 Vision
+    } else {
+        alert('Please select a screenshot before submitting.');
+    }
 });
