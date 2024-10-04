@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('https://api.openai.com/v1/images/generations', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `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`,  // Replace with your API key
+                    'Authorization': `Bearer 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`,  // Replace with your API key
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
