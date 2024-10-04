@@ -27,6 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchToSignupLink = document.getElementById('switch-to-signup');
     const signupErrorDisplay = document.getElementById('signup-error');
     const loginErrorDisplay = document.getElementById('login-error');
+    
+    // Password input elements
+    const signupPasswordInput = document.getElementById('signup-password');
+    const loginPasswordInput = document.getElementById('login-password');
+    
+    // Eye icons for toggling password view
+    const signupEye = document.getElementById('signup-eye');
+    const loginEye = document.getElementById('login-eye');
 
     // Function to show inline errors
     function showError(errorDisplayElement, message) {
@@ -39,6 +47,27 @@ document.addEventListener('DOMContentLoaded', () => {
         errorDisplayElement.textContent = '';
         errorDisplayElement.style.display = 'none';  // Hide the error message
     }
+
+    // Toggle password visibility
+    function togglePasswordVisibility(inputElement, eyeElement) {
+        if (inputElement.type === 'password') {
+            inputElement.type = 'text';
+            eyeElement.innerHTML = '&#128065;';  // Open eye icon
+        } else {
+            inputElement.type = 'password';
+            eyeElement.innerHTML = '&#128065;';  // Closed eye icon
+        }
+    }
+
+    // Add event listener for password toggle (Sign-Up form)
+    signupEye.addEventListener('click', () => {
+        togglePasswordVisibility(signupPasswordInput, signupEye);
+    });
+
+    // Add event listener for password toggle (Login form)
+    loginEye.addEventListener('click', () => {
+        togglePasswordVisibility(loginPasswordInput, loginEye);
+    });
 
     // Show login form and hide sign-up form
     switchToLoginLink.addEventListener('click', (e) => {
