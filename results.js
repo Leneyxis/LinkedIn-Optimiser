@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Parse the response (if stored as stringified JSON)
   const parsedApiResponse = JSON.parse(apiResponse);
-  console.log('Parsed API Response:', parsedApiResponse); // Add this line for debugging
+  console.log('Parsed API Response:', parsedApiResponse); // Debugging
 
   if (!parsedApiResponse) {
     console.error('Parsed API response is invalid.');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to create a section
   function createSection(title, statusClass, issue, recommendations, suggestions) {
-    console.log(`Creating section for ${title}`); // Debugging to check if this function is called
+    console.log(`Creating section for ${title}`); // Debugging
 
     const sectionElement = document.createElement('div');
     sectionElement.classList.add('profile-section');
@@ -35,18 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionElement.innerHTML = `
       <div class="section-info">
         <span class="section-title">${title}</span>
+        <div class="status-icon ${statusClass}">${getStatusIcon(statusClass)}</div>
       </div>
-      <div class="status-icon ${statusClass}">⚠️</div>
       <div class="section-details">
-        <p><strong>Current Issue:</strong> ${issue}</p>
-        <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
-        <ul><strong>Suggestions:</strong> ${suggestionList}</ul>
+        ${issue ? `<p><strong>Current Issue:</strong> ${issue}</p>` : ''}
+        ${recommendationList ? `<p><strong>Recommendations:</strong></p><ul>${recommendationList}</ul>` : ''}
+        ${suggestionList ? `<p><strong>Suggestions:</strong></p><ul>${suggestionList}</ul>` : ''}
       </div>
     `;
 
-    // Check if the section element is being created correctly
-    console.log(`Appending section for ${title}`);
     profileSections.appendChild(sectionElement);
+  }
+
+  // Function to get the appropriate status icon
+  function getStatusIcon(statusClass) {
+    if (statusClass === 'error') return '❌';
+    if (statusClass === 'warning') return '⚠️';
+    if (statusClass === 'success') return '✔️';
+    return '';
   }
 
   // Display the "Recommended Changes" section
@@ -56,9 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'warning',
-        sectionData['currentIssue'],
-        sectionData['recommendations'] || [],
-        []
+        sectionData['Current Issue'],
+        sectionData['Recommendations'] || [],
+        sectionData['Suggestions'] || []
       );
     });
   }
@@ -70,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'error',
-        sectionData['currentIssue'],
-        sectionData['recommendations'] || [],
-        []
+        sectionData['Current Issue'],
+        sectionData['Recommendations'] || [],
+        sectionData['Suggestions'] || []
       );
     });
   }
@@ -84,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'success',
-        sectionData['Description'],
+        sectionData['Current Issue'] || sectionData['Description'],
         sectionData['Recommendations'] || [],
-        []
+        sectionData['Suggestions'] || []
       );
     });
   }
