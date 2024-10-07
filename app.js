@@ -48,3 +48,31 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.onload = () => {
                 const base64Image = reader.result.split(',')[1]; // Extract the base64 part of the result
 
+                const requestBody = JSON.stringify({
+                    image_base64: base64Image
+                });
+
+                // Call the LinkedIn Optimiser REST API
+                fetch('https://fi96kiqrk7.execute-api.us-west-1.amazonaws.com/default/LinkedIn_Optimiser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: requestBody
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(`API Response: ${JSON.stringify(data)}`);
+                })
+                .catch(error => console.error('Error:', error));
+            };
+
+            reader.onerror = (error) => {
+                console.error('Error reading file:', error);
+            };
+        } else {
+            alert('Please select a screenshot before submitting.');
+        }
+    });
+});
