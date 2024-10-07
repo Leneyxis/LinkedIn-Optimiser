@@ -2,10 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const profileSections = document.getElementById('profile-sections');
 
   // Get the API response from localStorage
-  const apiResponse = JSON.parse(localStorage.getItem('apiResponse'));
-
+  const apiResponse = localStorage.getItem('apiResponse');
+  
+  // Check if apiResponse is retrieved properly
   if (!apiResponse) {
-    console.error('No API response found.');
+    console.error('No API response found in localStorage.');
+    return;
+  }
+
+  // Parse the response (if stored as stringified JSON)
+  const parsedApiResponse = JSON.parse(apiResponse);
+  console.log('Parsed API Response:', parsedApiResponse); // Add this line for debugging
+
+  if (!parsedApiResponse) {
+    console.error('Parsed API response is invalid.');
     return;
   }
 
@@ -33,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Display the "Recommended Changes" section
-  if (apiResponse['Recommended Changes']) {
-    Object.keys(apiResponse['Recommended Changes']).forEach(section => {
-      const sectionData = apiResponse['Recommended Changes'][section];
+  if (parsedApiResponse['Recommended Changes']) {
+    Object.keys(parsedApiResponse['Recommended Changes']).forEach(section => {
+      const sectionData = parsedApiResponse['Recommended Changes'][section];
       createSection(
         section,
         'warning',
@@ -47,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Display the "Immediate Action" section
-  if (apiResponse['Immediate Action']) {
-    Object.keys(apiResponse['Immediate Action']).forEach(section => {
-      const sectionData = apiResponse['Immediate Action'][section];
+  if (parsedApiResponse['Immediate Action']) {
+    Object.keys(parsedApiResponse['Immediate Action']).forEach(section => {
+      const sectionData = parsedApiResponse['Immediate Action'][section];
       createSection(
         section,
         'error',
@@ -61,9 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Display the "Completed" section
-  if (apiResponse['Completed']) {
-    Object.keys(apiResponse['Completed']).forEach(section => {
-      const sectionData = apiResponse['Completed'][section];
+  if (parsedApiResponse['Completed']) {
+    Object.keys(parsedApiResponse['Completed']).forEach(section => {
+      const sectionData = parsedApiResponse['Completed'][section];
       createSection(
         section,
         'success',
