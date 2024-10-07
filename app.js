@@ -65,9 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
           // Parse the escaped JSON string from the body field
           const parsedBody = JSON.parse(data.body);
 
-          // Now render the parsed response
-          console.log('API Response:', parsedBody); // Add this to check the response
-          showProfileSections(parsedBody); // Call function to show sections
+          // Save the response in localStorage to be accessed in results.html
+          localStorage.setItem('apiResponse', JSON.stringify(parsedBody));
+
+          // Redirect to results.html
+          window.location.href = 'results.html';
         })
         .catch(error => console.error('Error:', error));
       };
@@ -79,81 +81,4 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Please select a screenshot before submitting.');
     }
   });
-
-  // Function to render the profile sections based on API response
-  function showProfileSections(apiResponse) {
-    // Ensure that the response and sections exist before proceeding
-    if (!apiResponse) {
-      console.error('API response does not contain the expected structure.');
-      return; // Exit the function if the response is invalid
-    }
-
-    profileSections.style.display = 'block';  // Make the profile section visible
-    profileSections.innerHTML = '';  // Clear any previous sections
-
-    // Helper function to create a section
-    function createSection(title, statusClass, issue, recommendations, suggestions) {
-      const sectionElement = document.createElement('div');
-      sectionElement.classList.add('profile-section');
-
-      let recommendationList = recommendations.map(rec => `<li>${rec}</li>`).join('');
-      let suggestionList = suggestions.map(sugg => `<li>${sugg}</li>`).join('');
-
-      sectionElement.innerHTML = `
-        <div class="section-info">
-          <span class="section-title">${title}</span>
-        </div>
-        <div class="status-icon ${statusClass}">⚠️</div>
-        <div class="section-details">
-          <p><strong>Current Issue:</strong> ${issue}</p>
-          <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
-          <ul><strong>Suggestions:</strong> ${suggestionList}</ul>
-        </div>
-      `;
-
-      profileSections.appendChild(sectionElement);
-    }
-
-    // Display the "Recommended Changes" section
-    if (apiResponse['Recommended Changes']) {
-      Object.keys(apiResponse['Recommended Changes']).forEach(section => {
-        const sectionData = apiResponse['Recommended Changes'][section];
-        createSection(
-          section,
-          'warning',
-          sectionData['Current Issue'],
-          sectionData['Recommendations'] || [],
-          []
-        );
-      });
-    }
-
-    // Display the "Immediate Action" section
-    if (apiResponse['Immediate Action']) {
-      Object.keys(apiResponse['Immediate Action']).forEach(section => {
-        const sectionData = apiResponse['Immediate Action'][section];
-        createSection(
-          section,
-          'error',
-          sectionData['Current Issue'],
-          sectionData['Recommendations'] || [],
-          []
-        );
-      });
-    }
-
-    // Display the "Completed" section
-    if (apiResponse['Completed']) {
-      Object.keys(apiResponse['Completed']).forEach(section => {
-        const sectionData = apiResponse['Completed'][section];
-        createSection(
-          section,
-          'success',
-          sectionData['Current Issue'],
-          sectionData['Recommendations'] || [],
-          sectionData['Suggestions'] || []
-        );
-      });
-    }
-  }
 });
