@@ -8,8 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!apiResponse) {
     rawJsonOutput.textContent = 'No data available.';
   } else {
-    // Display the JSON data in a pretty-printed format
-    const parsedApiResponse = JSON.parse(apiResponse);
-    rawJsonOutput.textContent = JSON.stringify(parsedApiResponse, null, 2); // Pretty-print the JSON
+    // Parse the escaped JSON
+    let parsedApiResponse = JSON.parse(apiResponse);
+
+    // Further parse the body if it contains escaped characters
+    if (parsedApiResponse.body) {
+      try {
+        parsedApiResponse = JSON.parse(parsedApiResponse.body);
+      } catch (e) {
+        console.error("Error parsing JSON body:", e);
+      }
+    }
+
+    // Display the formatted JSON output
+    rawJsonOutput.textContent = JSON.stringify(parsedApiResponse, null, 2);
   }
 });
