@@ -92,11 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
     profileSections.innerHTML = '';  // Clear any previous sections
 
     // Helper function to create a section
-    function createSection(title, statusClass, problem, recommendations) {
+    function createSection(title, statusClass, issue, recommendations, suggestions) {
       const sectionElement = document.createElement('div');
       sectionElement.classList.add('profile-section');
 
       let recommendationList = recommendations.map(rec => `<li>${rec}</li>`).join('');
+      let suggestionList = suggestions.map(sugg => `<li>${sugg}</li>`).join('');
 
       sectionElement.innerHTML = `
         <div class="section-info">
@@ -104,8 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="status-icon ${statusClass}">⚠️</div>
         <div class="section-details">
-          <p><strong>Problem:</strong> ${problem}</p>
-          <ul>${recommendationList}</ul>
+          <p><strong>Current Issue:</strong> ${issue}</p>
+          <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
+          <ul><strong>Suggestions:</strong> ${suggestionList}</ul>
         </div>
       `;
 
@@ -116,7 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (apiResponse['Recommended Changes']) {
       Object.keys(apiResponse['Recommended Changes']).forEach(section => {
         const sectionData = apiResponse['Recommended Changes'][section];
-        createSection(section, 'warning', sectionData.Problem, sectionData.Recommendations);
+        createSection(
+          section,
+          'warning',
+          sectionData['Current Issue'],
+          sectionData['Recommendations'] || [],
+          []
+        );
       });
     }
 
@@ -124,7 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (apiResponse['Immediate Action']) {
       Object.keys(apiResponse['Immediate Action']).forEach(section => {
         const sectionData = apiResponse['Immediate Action'][section];
-        createSection(section, 'error', sectionData.Problem, sectionData.Recommendations);
+        createSection(
+          section,
+          'error',
+          sectionData['Current Issue'],
+          sectionData['Recommendations'] || [],
+          []
+        );
       });
     }
 
@@ -132,7 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (apiResponse['Completed']) {
       Object.keys(apiResponse['Completed']).forEach(section => {
         const sectionData = apiResponse['Completed'][section];
-        createSection(section, 'success', sectionData.Completed, sectionData.Recommendations);
+        createSection(
+          section,
+          'success',
+          sectionData['Current Issue'],
+          sectionData['Recommendations'] || [],
+          sectionData['Suggestions'] || []
+        );
       });
     }
   }
