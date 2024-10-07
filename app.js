@@ -62,9 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-          alert(`API Response: ${JSON.stringify(data)}`);
-          showProfileSections(data);
+          // Parse the escaped JSON string from the body field
+          const parsedBody = JSON.parse(data.body);
+
+          // Now render the parsed response
+          console.log('API Response:', parsedBody); // Add this to check the response
+          showProfileSections(parsedBody); // Call function to show sections
         })
         .catch(error => console.error('Error:', error));
       };
@@ -79,25 +82,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to render the profile sections based on API response
   function showProfileSections(apiResponse) {
+    // Ensure that the response and sections exist before proceeding
+    if (!apiResponse) {
+      console.error('API response does not contain the expected structure.');
+      return; // Exit the function if the response is invalid
+    }
+
     profileSections.style.display = 'block';  // Make the profile section visible
     profileSections.innerHTML = '';  // Clear any previous sections
 
-    // Loop through the response to create profile sections dynamically
-    Object.keys(apiResponse['Recommended Changes']).forEach(section => {
-      const statusIcon = apiResponse['Recommended Changes'][section] ? '⚠️' : '✔️';
-
+    // Helper function to create a section
+    function createSection(title, statusClass, problem, recommendations) {
       const sectionElement = document.createElement('div');
       sectionElement.classList.add('profile-section');
+
+      let recommendationList = recommendations.map(rec => `<li>${rec}</li>`).join('');
+
       sectionElement.innerHTML = `
         <div class="section-info">
-          <img src="assets/${section.toLowerCase()}.png" alt="${section}" class="section-icon">
-          <span class="section-title">${section}</span>
+          <span class="section-title">${title}</span>
         </div>
-        <div class="status-icon">${statusIcon}</div>
-        <div class="arrow-icon">➡️</div>
+        <div class="status-icon ${statusClass}">⚠️</div>
+        <div class="section-details">
+          <p><strong>Problem:</strong> ${problem}</p>
+          <ul>${recommendationList}</ul>
+        </div>
       `;
 
       profileSections.appendChild(sectionElement);
-    });
+    }
+
+    // Display the "Recommended Changes" section
+    if (apiResponse['Recommended Changes']) {
+      Object.keys(apiResponse['Recommended Changes']).forEach(section => {
+        const sectionData = apiResponse['Recommended Changes'][section];
+        createSection(section, 'warning', sectionData.Problem, sectionData.Recommendations);
+      });
+    }
+
+    // Display the "Immediate Action" section
+    if (apiResponse['Immediate Action']) {
+      Object.keys(apiResponse['Immediate Action']).forEach(section => {
+        const sectionData = apiResponse['Immediate Action'][section];
+        createSection(section, 'error', sectionData.Problem, sectionData.Recommendations);
+      });
+    }
+
+    // Display the "Completed" section
+    if (apiResponse['Completed']) {
+      Object.keys(apiResponse['Completed']).forEach(section => {
+        const sectionData = apiResponse['Completed'][section];
+        createSection(section, 'success', sectionData.Completed, sectionData.Recommendations);
+      });
+    }
   }
 });
