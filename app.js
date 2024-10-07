@@ -62,11 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-          // Parse the escaped JSON string from the body field
-          const parsedBody = JSON.parse(data.body);
-
-          // Save the response in localStorage to be accessed in results.html
-          localStorage.setItem('apiResponse', JSON.stringify(parsedBody));
+          // Save the raw JSON response to localStorage
+          localStorage.setItem('apiResponse', JSON.stringify(data));
 
           // Redirect to results.html
           window.location.href = 'results.html';
