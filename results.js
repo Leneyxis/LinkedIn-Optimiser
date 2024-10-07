@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // Ensure the profile-sections div is visible
+  profileSections.style.display = 'block';
+
   // Helper function to create a section
   function createSection(title, statusClass, issue, recommendations, suggestions) {
     console.log(`Creating section for ${title}`); // Debugging to check if this function is called
@@ -81,9 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'success',
-        sectionData['currentIssue'],
-        sectionData['recommendations'] || [],
-        sectionData['suggestions'] || []
+        sectionData['Description'],
+        sectionData['Recommendations'] || [],
+        []
       );
     });
   }
