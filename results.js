@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get the API response from localStorage
   const apiResponse = localStorage.getItem('apiResponse');
-  
+
   // Check if apiResponse is retrieved properly
   if (!apiResponse) {
     console.error('No API response found in localStorage.');
@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to create a section
   function createSection(title, statusClass, issue, recommendations, suggestions) {
+    console.log(`Creating section for ${title}`); // Debugging to check if this function is called
+
     const sectionElement = document.createElement('div');
     sectionElement.classList.add('profile-section');
 
@@ -39,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
+    // Check if the section element is being created correctly
+    console.log(`Appending section for ${title}`);
     profileSections.appendChild(sectionElement);
   }
 
@@ -49,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'warning',
-        sectionData['Current Issue'],
-        sectionData['Recommendations'] || [],
+        sectionData['currentIssue'],
+        sectionData['recommendations'] || [],
         []
       );
     });
@@ -63,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'error',
-        sectionData['Current Issue'],
-        sectionData['Recommendations'] || [],
+        sectionData['currentIssue'],
+        sectionData['recommendations'] || [],
         []
       );
     });
@@ -77,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createSection(
         section,
         'success',
-        sectionData['Current Issue'],
-        sectionData['Recommendations'] || [],
-        sectionData['Suggestions'] || []
+        sectionData['currentIssue'],
+        sectionData['recommendations'] || [],
+        sectionData['suggestions'] || []
       );
     });
   }
