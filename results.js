@@ -27,8 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         // Log before parsing the body
         console.log('API Response Body (before parsing):', parsedApiResponse.body);
-        parsedBody = JSON.parse(parsedApiResponse.body); // Parsing the body again
+
+        // Check if the body is a string and parse it
+        if (typeof parsedApiResponse.body === 'string') {
+          parsedBody = JSON.parse(parsedApiResponse.body); // Parsing the body again
+        } else {
+          parsedBody = parsedApiResponse.body; // If it's already an object
+        }
+
         console.log('Parsed API Body:', parsedBody); // Debugging step
+
       } catch (e) {
         console.error('Error parsing inner JSON body:', e);
         rawJsonOutput.textContent = 'Error parsing JSON body data.';
@@ -36,18 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Trim the keys in parsedBody
-    function trimKeys(obj) {
-      const newObj = {};
-      Object.keys(obj).forEach(key => {
-        const trimmedKey = key.trim();
-        newObj[trimmedKey] = obj[key];
-      });
-      return newObj;
+    // Check if parsedBody is an object or string
+    if (typeof parsedBody !== 'object') {
+      console.error('Parsed body is not an object:', parsedBody);
+      rawJsonOutput.textContent = 'Invalid JSON body structure.';
+      return;
     }
 
-    parsedBody = trimKeys(parsedBody);
-    console.log('Trimmed Keys in parsedBody:', Object.keys(parsedBody));
+    // Log keys to verify the structure
+    console.log('Keys in parsedBody:', Object.keys(parsedBody));
 
     // Clear out any existing content
     rawJsonOutput.innerHTML = '';
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rawJsonOutput.appendChild(sectionElement);
     }
 
-    // Render sections using trimmed keys
+    // Render sections using the parsedBody
     const sections = ['Recommended Changes', 'Immediate Action', 'Completed'];
 
     sections.forEach(sectionName => {
