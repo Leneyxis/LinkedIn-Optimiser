@@ -3,25 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LinkedIn Profile Optimizer Results</title>
-  <link rel="stylesheet" href="profile.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>API Response Rendering</title>
+  <style>
+    /* Add some basic styling for readability */
+    .profile-section {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .section-item {
+      margin-bottom: 10px;
+    }
+    h3 {
+      color: #2c3e50;
+    }
+    h4 {
+      color: #2980b9;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="logo-container">
-      <img src="assets/logo.jpeg" alt="Internexxus Logo" class="logo">
-      <span class="company-name">LinkedIn Optimiser Results</span>
-    </div>
+<div id="raw-json-output">
+  <!-- API response will be rendered here -->
+</div>
 
-    <!-- Formatted output container -->
-    <div id="raw-json-output" style="white-space: pre-wrap; background-color: #f0f0f0; padding: 20px; border-radius: 10px;">
-      <!-- The formatted results will be dynamically loaded here -->
-    </div>
-  </div>
-
-  <!-- Include your results.js file here -->
-  <script src="results.js"></script>
+<script src="results.js"></script>
 </body>
 </html>
