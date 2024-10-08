@@ -36,6 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // Trim the keys in parsedBody
+    function trimKeys(obj) {
+      const newObj = {};
+      Object.keys(obj).forEach(key => {
+        const trimmedKey = key.trim();
+        newObj[trimmedKey] = obj[key];
+      });
+      return newObj;
+    }
+
+    parsedBody = trimKeys(parsedBody);
+    console.log('Trimmed Keys in parsedBody:', Object.keys(parsedBody));
+
     // Clear out any existing content
     rawJsonOutput.innerHTML = '';
 
@@ -64,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="section-item">
             <h4>${item}</h4>
             <p><strong>Current Problem:</strong> ${issue}</p>
-            <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
+            <strong>Recommendations:</strong>
+            <ul>${recommendationList}</ul>
           </div>
         `;
 
@@ -74,31 +88,17 @@ document.addEventListener('DOMContentLoaded', () => {
       rawJsonOutput.appendChild(sectionElement);
     }
 
-    // Log the parsedBody before rendering sections
-    console.log('Parsed Body before rendering sections:', parsedBody);
+    // Render sections using trimmed keys
+    const sections = ['Recommended Changes', 'Immediate Action', 'Completed'];
 
-    // Render "Recommended Changes" section
-    if (parsedBody && parsedBody['Recommended Changes']) {
-      console.log('Rendering "Recommended Changes"'); // Debugging step
-      renderSection('Recommended Changes', parsedBody['Recommended Changes']);
-    } else {
-      console.log('No "Recommended Changes" section found.');
-    }
-
-    // Render "Immediate Action" section
-    if (parsedBody && parsedBody['Immediate Action']) {
-      console.log('Rendering "Immediate Action"'); // Debugging step
-      renderSection('Immediate Action', parsedBody['Immediate Action']);
-    } else {
-      console.log('No "Immediate Action" section found.');
-    }
-
-    // Render "Completed" section
-    if (parsedBody && parsedBody['Completed']) {
-      console.log('Rendering "Completed"'); // Debugging step
-      renderSection('Completed', parsedBody['Completed']);
-    } else {
-      console.log('No "Completed" section found.');
-    }
+    sections.forEach(sectionName => {
+      const sectionData = parsedBody[sectionName];
+      if (sectionData) {
+        console.log(`Rendering "${sectionName}"`);
+        renderSection(sectionName, sectionData);
+      } else {
+        console.log(`No "${sectionName}" section found.`);
+      }
+    });
   }
 });
