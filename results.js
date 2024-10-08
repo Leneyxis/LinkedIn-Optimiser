@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!apiResponse) {
     rawJsonOutput.textContent = 'No data available.';
   } else {
-    // Parse the escaped JSON
+    // Parse the JSON
     let parsedApiResponse;
     try {
       parsedApiResponse = JSON.parse(apiResponse);
@@ -20,22 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Check if the body field exists
-    if (parsedApiResponse.body) {
-      try {
-        parsedApiResponse = JSON.parse(parsedApiResponse.body);
-        console.log('Parsed API Body:', parsedApiResponse); // Debugging step
-      } catch (e) {
-        console.error("Error parsing JSON body:", e);
-      }
-    }
-
-    // Clear out the default JSON display
+    // Clear out any existing content
     rawJsonOutput.innerHTML = '';
 
     // Function to render each section
     function renderSection(sectionTitle, data) {
-      console.log(`Rendering section: ${sectionTitle}`, data); // Debugging step
       const sectionElement = document.createElement('div');
       sectionElement.classList.add('profile-section');
       sectionElement.innerHTML = `
