@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parsedApiResponse.body) {
       try {
         parsedApiResponse = JSON.parse(parsedApiResponse.body);
+        console.log(parsedApiResponse)
       } catch (e) {
         console.error("Error parsing JSON body:", e);
       }
