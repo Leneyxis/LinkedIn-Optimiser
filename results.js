@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clear out the default JSON display
     rawJsonOutput.innerHTML = '';
 
-    // Function to render each section
+    // Function to render each section (Recommended Changes, Immediate Action, Completed)
     function renderSection(sectionTitle, data) {
       const sectionElement = document.createElement('div');
       sectionElement.classList.add('profile-section');
@@ -32,42 +32,42 @@ document.addEventListener('DOMContentLoaded', () => {
         <h3>${sectionTitle}</h3>
       `;
 
-      // Loop through each item in the section
-      Object.keys(data).forEach(item => {
-        const itemData = data[item];
-        const issue = itemData.Problem; // Access the 'Problem' field
-        const recommendations = itemData.Recommendations || []; // Access the 'Recommendations' field
+      // Loop through each field in the section
+      Object.keys(data).forEach(field => {
+        const fieldData = data[field];
+        const issue = fieldData["Current Problem"]; // Access the "Current Problem" field
+        const recommendations = fieldData.Recommendations || []; // Access the "Recommendations" field
 
         // Create a list of recommendations
         let recommendationList = recommendations.map(rec => `<li>${rec}</li>`).join('');
 
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('section-item');
-        itemElement.innerHTML = `
+        const fieldElement = document.createElement('div');
+        fieldElement.classList.add('section-item');
+        fieldElement.innerHTML = `
           <div class="section-item">
-            <h4>${item}</h4>
-            <p><strong>Issue:</strong> ${issue}</p>
+            <h4>${field}</h4>
+            <p><strong>Current Problem:</strong> ${issue}</p>
             <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
           </div>
         `;
 
-        sectionElement.appendChild(itemElement);
+        sectionElement.appendChild(fieldElement);
       });
 
       rawJsonOutput.appendChild(sectionElement);
     }
 
-    // Render "Recommended Changes"
+    // Render "Recommended Changes" section
     if (parsedApiResponse['Recommended Changes']) {
       renderSection('Recommended Changes', parsedApiResponse['Recommended Changes']);
     }
 
-    // Render "Immediate Action"
+    // Render "Immediate Action" section
     if (parsedApiResponse['Immediate Action']) {
       renderSection('Immediate Action', parsedApiResponse['Immediate Action']);
     }
 
-    // Render "Completed"
+    // Render "Completed" section
     if (parsedApiResponse['Completed']) {
       renderSection('Completed', parsedApiResponse['Completed']);
     }
