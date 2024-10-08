@@ -21,16 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Check if the body field exists and parse it again since it is double-encoded
+    // Check if the body field exists and handle parsing
     let parsedBody;
     if (parsedApiResponse.body) {
       try {
         // Log before parsing the body
         console.log('API Response Body (before parsing):', parsedApiResponse.body);
 
-        // Check if the body is a string and parse it
+        // Check if the body is a string and parse it twice
         if (typeof parsedApiResponse.body === 'string') {
-          parsedBody = JSON.parse(parsedApiResponse.body); // Parsing the body again
+          // Parse the string twice to ensure it's converted into an object
+          parsedBody = JSON.parse(JSON.parse(parsedApiResponse.body));
         } else {
           parsedBody = parsedApiResponse.body; // If it's already an object
         }
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Check if parsedBody is an object or string
+    // Ensure parsedBody is an object
     if (typeof parsedBody !== 'object') {
       console.error('Parsed body is not an object:', parsedBody);
       rawJsonOutput.textContent = 'Invalid JSON body structure.';
