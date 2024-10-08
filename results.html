@@ -10,56 +10,15 @@
 
   <div class="container">
     <div class="recommendation-header">
-      <button class="filter-btn all active">All</button>
-      <button class="filter-btn good">✔</button>
-      <button class="filter-btn idea">💡</button>
-      <button class="filter-btn warning">⚠</button>
-      <button class="filter-btn alert">❗</button>
+      <button class="filter-btn all active" data-filter="all">All</button>
+      <button class="filter-btn good" data-filter="good">✔</button>
+      <button class="filter-btn idea" data-filter="idea">💡</button>
+      <button class="filter-btn warning" data-filter="warning">⚠</button>
+      <button class="filter-btn alert" data-filter="alert">❗</button>
     </div>
 
-    <div class="recommendation-list">
-      <!-- Example card layout -->
-      <div class="recommendation-card">
-        <div class="recommendation-icon">
-          <img src="profile-icon.png" alt="Profile Photo">
-        </div>
-        <div class="recommendation-details">
-          <h4>Profile Photo</h4>
-          <span class="status good">✔</span>
-        </div>
-      </div>
-
-      <div class="recommendation-card">
-        <div class="recommendation-icon">
-          <img src="banner-icon.png" alt="Banner">
-        </div>
-        <div class="recommendation-details">
-          <h4>Banner</h4>
-          <span class="status warning">⚠</span>
-        </div>
-      </div>
-
-      <div class="recommendation-card">
-        <div class="recommendation-icon">
-          <img src="headline-icon.png" alt="Headline">
-        </div>
-        <div class="recommendation-details">
-          <h4>Headline</h4>
-          <span class="status warning">⚠</span>
-        </div>
-      </div>
-
-      <div class="recommendation-card">
-        <div class="recommendation-icon">
-          <img src="open-to-work-icon.png" alt="Open To Work">
-        </div>
-        <div class="recommendation-details">
-          <h4>Open To Work</h4>
-          <span class="status alert">❗</span>
-        </div>
-      </div>
-
-      <!-- More recommendation cards here -->
+    <div id="recommendation-list" class="recommendation-list">
+      <!-- Cards will be dynamically generated here by JS -->
     </div>
   </div>
 
