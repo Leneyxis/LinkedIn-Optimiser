@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let parsedBody;
     if (parsedApiResponse.body) {
       try {
-        parsedBody = JSON.parse(parsedApiResponse.body);
+        // Log before parsing the body
+        console.log('API Response Body (before parsing):', parsedApiResponse.body);
+        parsedBody = JSON.parse(parsedApiResponse.body); // Parsing the body again
         console.log('Parsed API Body:', parsedBody); // Debugging step
       } catch (e) {
         console.error('Error parsing inner JSON body:', e);
@@ -72,8 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
       rawJsonOutput.appendChild(sectionElement);
     }
 
+    // Log the parsedBody before rendering sections
+    console.log('Parsed Body before rendering sections:', parsedBody);
+
     // Render "Recommended Changes" section
     if (parsedBody && parsedBody['Recommended Changes']) {
+      console.log('Rendering "Recommended Changes"'); // Debugging step
       renderSection('Recommended Changes', parsedBody['Recommended Changes']);
     } else {
       console.log('No "Recommended Changes" section found.');
@@ -81,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render "Immediate Action" section
     if (parsedBody && parsedBody['Immediate Action']) {
+      console.log('Rendering "Immediate Action"'); // Debugging step
       renderSection('Immediate Action', parsedBody['Immediate Action']);
     } else {
       console.log('No "Immediate Action" section found.');
@@ -88,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Render "Completed" section
     if (parsedBody && parsedBody['Completed']) {
+      console.log('Rendering "Completed"'); // Debugging step
       renderSection('Completed', parsedBody['Completed']);
     } else {
       console.log('No "Completed" section found.');
