@@ -3,21 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get the raw JSON response from localStorage
   const apiResponse = localStorage.getItem('apiResponse');
-  console.log('Raw API Response:', apiResponse); // Debugging step
+  console.log('Raw API Response from Local Storage:', apiResponse); // Debugging step
 
   // Check if apiResponse is available
   if (!apiResponse) {
     rawJsonOutput.textContent = 'No data available.';
+    console.log('No API response found in localStorage.');
   } else {
-    // Parse the JSON
+    // Parse the outer JSON structure
     let parsedApiResponse;
     try {
       parsedApiResponse = JSON.parse(apiResponse);
       console.log('Parsed API Response:', parsedApiResponse); // Debugging step
     } catch (e) {
-      console.error('Error parsing JSON:', e);
+      console.error('Error parsing outer JSON:', e);
       rawJsonOutput.textContent = 'Error parsing JSON data.';
       return;
+    }
+
+    // Check if the body field exists and parse it again since it is double-encoded
+    let parsedBody;
+    if (parsedApiResponse.body) {
+      try {
+        parsedBody = JSON.parse(parsedApiResponse.body);
+        console.log('Parsed API Body:', parsedBody); // Debugging step
+      } catch (e) {
+        console.error('Error parsing inner JSON body:', e);
+        rawJsonOutput.textContent = 'Error parsing JSON body data.';
+        return;
+      }
     }
 
     // Clear out any existing content
@@ -25,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to render each section
     function renderSection(sectionTitle, data) {
+      console.log(`Rendering section: ${sectionTitle}`, data); // Debugging step
+
       const sectionElement = document.createElement('div');
       sectionElement.classList.add('profile-section');
       sectionElement.innerHTML = `
@@ -57,18 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Render "Recommended Changes" section
-    if (parsedApiResponse['Recommended Changes']) {
-      renderSection('Recommended Changes', parsedApiResponse['Recommended Changes']);
+    if (parsedBody['Recommended Changes']) {
+      renderSection('Recommended Changes', parsedBody['Recommended Changes']);
+    } else {
+      console.log('No "Recommended Changes" section found.');
     }
 
     // Render "Immediate Action" section
-    if (parsedApiResponse['Immediate Action']) {
-      renderSection('Immediate Action', parsedApiResponse['Immediate Action']);
+    if (parsedBody['Immediate Action']) {
+      renderSection('Immediate Action', parsedBody['Immediate Action']);
+    } else {
+      console.log('No "Immediate Action" section found.');
     }
 
     // Render "Completed" section
-    if (parsedApiResponse['Completed']) {
-      renderSection('Completed', parsedApiResponse['Completed']);
+    if (parsedBody['Completed']) {
+      renderSection('Completed', parsedBody['Completed']);
+    } else {
+      console.log('No "Completed" section found.');
     }
   }
 });
