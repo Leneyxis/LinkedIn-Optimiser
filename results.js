@@ -73,21 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Render "Recommended Changes" section
-    if (parsedBody['Recommended Changes']) {
+    if (parsedBody && parsedBody['Recommended Changes']) {
       renderSection('Recommended Changes', parsedBody['Recommended Changes']);
     } else {
       console.log('No "Recommended Changes" section found.');
     }
 
     // Render "Immediate Action" section
-    if (parsedBody['Immediate Action']) {
+    if (parsedBody && parsedBody['Immediate Action']) {
       renderSection('Immediate Action', parsedBody['Immediate Action']);
     } else {
       console.log('No "Immediate Action" section found.');
     }
 
     // Render "Completed" section
-    if (parsedBody['Completed']) {
+    if (parsedBody && parsedBody['Completed']) {
       renderSection('Completed', parsedBody['Completed']);
     } else {
       console.log('No "Completed" section found.');
