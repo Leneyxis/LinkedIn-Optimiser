@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (parsedApiResponse.body) {
       try {
         parsedApiResponse = JSON.parse(parsedApiResponse.body);
-        console.log(parsedApiResponse)
+        console.log(parsedApiResponse);
       } catch (e) {
         console.error("Error parsing JSON body:", e);
       }
@@ -31,16 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
       sectionElement.innerHTML = `
         <h3>${sectionTitle}</h3>
       `;
-      
+
       // Loop through each item in the section
       Object.keys(data).forEach(item => {
         const itemData = data[item];
-        const issue = itemData.current_issue || itemData.Description;
-        const recommendations = itemData.recommendations || itemData.completed || [];
-        
+        const issue = itemData.Problem; // Access the 'Problem' field
+        const recommendations = itemData.Recommendations || []; // Access the 'Recommendations' field
+
+        // Create a list of recommendations
         let recommendationList = recommendations.map(rec => `<li>${rec}</li>`).join('');
 
         const itemElement = document.createElement('div');
+        itemElement.classList.add('section-item');
         itemElement.innerHTML = `
           <div class="section-item">
             <h4>${item}</h4>
@@ -48,10 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul><strong>Recommendations:</strong> ${recommendationList}</ul>
           </div>
         `;
-        
+
         sectionElement.appendChild(itemElement);
       });
-      
+
       rawJsonOutput.appendChild(sectionElement);
     }
 
