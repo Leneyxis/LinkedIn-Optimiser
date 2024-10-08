@@ -86,8 +86,12 @@ h2 {
   color: #28a745; /* Green */
 }
 
-.status.warning {
+.status.idea {
   color: #ffc107; /* Yellow */
+}
+
+.status.warning {
+  color: #ff9800; /* Orange */
 }
 
 .status.alert {
